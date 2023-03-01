@@ -13,8 +13,8 @@
                     </ul>
                 </div>
 
-                <input @keydown="sendTypingEvent" @keyup.enter="sendMessage" v-model="newMessage" type="text"
-                    name="message" placeholder="Enter your message..." class="form-control">
+                <input @keydown="sendTypingEvent" @keyup.enter="sendMessage" v-model="newMessage" type="text" name="message"
+                    placeholder="Enter your message..." class="form-control">
             </div>
             <span class="text-muted" v-if="activeUser">{{ activeUser.name }} is typing...</span>
         </div>
@@ -37,9 +37,7 @@
 
 <script>
 export default {
-
     props: ['user'],
-
     data() {
         return {
             messages: [],
@@ -49,13 +47,11 @@ export default {
             typingTimer: false,
         }
     },
-
     created() {
         this.fetchMessages();
-
         Echo.join('chat')
             .here(user => {
-                console.log('here');
+                console.log('Here');
                 this.users = user;
             })
             .joining(user => {
@@ -63,46 +59,36 @@ export default {
                 this.users.push(user);
             })
             .leaving(user => {
-                console.log('leaving');
+                 console.log('leavining');
                 this.users = this.users.filter(u => u.id != user.id);
             })
             .listen('MessageSent', (event) => {
-                console.log('messageSent');
                 this.messages.push(event.message);
             })
             .listenForWhisper('typing', user => {
                 this.activeUser = user;
-
                 if (this.typingTimer) {
                     clearTimeout(this.typingTimer);
                 }
-
                 this.typingTimer = setTimeout(() => {
                     this.activeUser = false;
                 }, 3000);
             })
-
     },
-
     methods: {
         fetchMessages() {
             axios.get('messages').then(response => {
                 this.messages = response.data;
             })
         },
-
         sendMessage() {
-
             this.messages.push({
                 user: this.user,
                 message: this.newMessage
             });
-
             axios.post('messages', { message: this.newMessage });
-
             this.newMessage = '';
         },
-
         sendTypingEvent() {
             Echo.join('chat')
                 .whisper('typing', this.user);

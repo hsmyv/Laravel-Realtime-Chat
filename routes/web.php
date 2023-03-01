@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/chats', [ChatsController::class, 'index']);
 Route::get('/messages', [ChatsController::class, 'fetchMessages']);
-Route::post('/messages', [ChatsController::class, 'sendMessages']);
+Route::post('/messages', [ChatsController::class, 'sendMessage']);
 
 Auth::routes();
 

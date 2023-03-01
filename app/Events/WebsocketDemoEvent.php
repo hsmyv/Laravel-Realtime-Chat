@@ -24,7 +24,7 @@ class WebsocketDemoEvent implements ShouldBroadcast
     {
         $this->somedata = $somedata;
     }
-
+ 
     /**
      * Get the channels the event should broadcast on.
      *

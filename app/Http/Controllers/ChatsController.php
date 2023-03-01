@@ -10,8 +10,7 @@ class ChatsController extends Controller
 {
     public function __construct()
     {
-            $this->middleware('auth');
-
+        $this->middleware('auth');
     }
     public function index()
     {
@@ -22,7 +21,7 @@ class ChatsController extends Controller
     {
         return Message::with('user')->get();
     }
-    public function sendMessages(Request $request)
+    public function sendMessage(Request $request)
     {
         $message = auth()->user()->messages()->create([
             'message' => $request->message
