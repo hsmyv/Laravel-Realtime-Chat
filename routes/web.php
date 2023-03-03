@@ -27,3 +27,7 @@ Route::post('/messages', [ChatsController::class, 'sendMessage']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/post-like', [App\Http\Controllers\HomeController::class, 'postLike']);
+Route::post('/broadcasting/auth', function () {
+    return Auth::user();
+});

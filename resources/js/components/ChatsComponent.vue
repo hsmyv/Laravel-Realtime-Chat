@@ -7,7 +7,13 @@
                 <div class="card-body p-0">
                     <ul class="list-unstyled" style="height:300px; overflow-y:scroll" v-chat-scroll>
                         <li class="p-2" v-for="(message, index) in messages" :key="index">
-                            <strong>{{ message.user.name }}</strong>
+                            <!-- Use a v-if directive to check if the user is authenticated -->
+                            <span v-if="message.user.id === user.id">
+                                <strong>{{ message.user.name }}:</strong>
+                            </span>
+                            <span v-else>
+                            {{ message.user.name }}:
+                            </span>
                             {{ message.message }}
                         </li>
                     </ul>
@@ -45,7 +51,7 @@ export default {
             users: [],
             activeUser: false,
             typingTimer: false,
-        }
+        };
     },
     created() {
         this.fetchMessages();
@@ -72,7 +78,7 @@ export default {
                 }
                 this.typingTimer = setTimeout(() => {
                     this.activeUser = false;
-                }, 3000);
+                }, 1000);
             })
     },
     methods: {
